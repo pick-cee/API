@@ -16,6 +16,7 @@ const app_service_1 = require("./app.service");
 const typeorm_1 = require("@nestjs/typeorm");
 const typeorm_2 = require("typeorm");
 const parent_entity_1 = require("./school-entities/parent.entity");
+const parents_modules_1 = require("./school-entities/parent/parents.modules");
 let AppModule = class AppModule {
     constructor(connection) {
         this.connection = connection;
@@ -30,9 +31,11 @@ AppModule = __decorate([
                 port: 3306,
                 username: 'root',
                 password: 'root',
-                database: 'test',
-                entities: [parent_entity_1.Parents],
+                database: 'HavisSM',
+                entities: [parent_entity_1.Parent],
+                autoLoadEntities: true,
             }),
+            parents_modules_1.ParentsModules,
         ],
         controllers: [app_controller_1.AppController],
         providers: [app_service_1.AppService],

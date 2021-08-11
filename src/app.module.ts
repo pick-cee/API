@@ -3,7 +3,8 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Connection } from 'typeorm';
-import { Parents } from './school-entities/parent.entity';
+import { Parent } from './school-entities/parent.entity';
+import { ParentsModules } from './school-entities/parent/parents.modules';
 
 @Module({
   imports: [
@@ -13,9 +14,11 @@ import { Parents } from './school-entities/parent.entity';
       port: 3306,
       username: 'root',
       password: 'root',
-      database: 'test',
-      entities: [Parents],
+      database: 'HavisSM',
+      entities: [Parent],
+      autoLoadEntities: true,
     }),
+    ParentsModules,
   ],
   controllers: [AppController],
   providers: [AppService],
