@@ -2,8 +2,19 @@ import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
 export class Parent {
+  splice() {
+    throw new Error('Method not implemented.');
+  }
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  find(_arg0: (parent: any) => boolean) {
+    throw new Error('Method not implemented.');
+  }
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  push(newParent: Parent) {
+    throw new Error('Method not implemented.');
+  }
   @PrimaryGeneratedColumn()
-  id: number;
+  id: string;
 
   @Column()
   full_name: string;

@@ -3,8 +3,9 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { Connection } from 'typeorm';
-import { Parent } from './school-entities/parent.entity';
-import { ParentsModules } from './school-entities/parent/parents.modules';
+import { Parent } from './parent/parent.entity';
+import { AccManager } from './AccountManager/Acc_Man-entity';
+import { ParentsModules } from './parent/parents.modules';
 
 @Module({
   imports: [
