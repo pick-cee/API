@@ -2,11 +2,8 @@
 import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
-export class AccManager {
-  find(_arg0: (accMan: any) => boolean) {
-    throw new Error('Method not implemented.');
-  }
-  push(_newAccManager: AccManager) {
+export class Security {
+  push(newSecurity: Security) {
     throw new Error('Method not implemented.');
   }
   @PrimaryGeneratedColumn()
