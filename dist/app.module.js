@@ -31,7 +31,6 @@ AppModule = __decorate([
                 port: 3306,
                 username: 'root',
                 password: 'root',
-                database: 'HavisSM',
                 entities: [parent_entity_1.Parent],
                 autoLoadEntities: true,
             }),

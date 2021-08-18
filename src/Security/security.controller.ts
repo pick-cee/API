@@ -1,8 +1,7 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Post } from '@nestjs/common';
 import { Body } from '@nestjs/common';
 import { Put } from '@nestjs/common';
-import { Param, Patch } from '@nestjs/common';
+import { Param } from '@nestjs/common';
 import { Controller, Get, Delete } from '@nestjs/common';
 import { Security } from './security.entity';
 import { securityServices } from './security.services';
