@@ -6,7 +6,7 @@ import { Controller, Get, Delete } from '@nestjs/common';
 import { Security } from './security.entity';
 import { securityServices } from './security.services';
 
-@Controller('sec')
+@Controller('security')
 export class securityController {
   constructor(private readonly secService: securityServices) {}
 
@@ -15,7 +15,7 @@ export class securityController {
     return this.secService.createSec(secData);
   }
 
-  @Get()
+  @Get('get')
   getAll(): Promise<Security[]> {
     return this.secService.findAll();
   }

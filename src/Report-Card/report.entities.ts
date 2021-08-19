@@ -1,7 +1,15 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { Student } from 'src/Student/student.entities';
+import { JoinColumn } from 'typeorm';
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  OneToOne,
+  BaseEntity,
+} from 'typeorm';
 
 @Entity()
-export class Report {
+export class Report extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: string;
 
@@ -19,4 +27,10 @@ export class Report {
 
   @Column()
   teacher_id: number;
+
+  @OneToOne(() => Student, (student) => student.id)
+  student: Student;
+
+  @JoinColumn()
+  student1: Student['id'];
 }

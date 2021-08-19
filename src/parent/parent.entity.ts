@@ -1,18 +1,15 @@
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
-
+/* eslint-disable @typescript-eslint/no-unused-vars */
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  OneToMany,
+  BaseEntity,
+} from 'typeorm';
+import { Student } from 'src/Student/student.entities';
+import { JoinColumn } from 'typeorm';
 @Entity()
-export class Parent {
-  splice() {
-    throw new Error('Method not implemented.');
-  }
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  find(_arg0: (parent: any) => boolean) {
-    throw new Error('Method not implemented.');
-  }
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  push(newParent: Parent) {
-    throw new Error('Method not implemented.');
-  }
+export class Parent extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: string;
 
@@ -36,6 +33,13 @@ export class Parent {
 
   @Column()
   gender: string;
+
+  @Column()
+  student_id: string;
+
+  @OneToMany(() => Student, (student) => student.id)
+  @JoinColumn({ name: 'student_id' })
+  student: Student[];
 
   @Column({ default: true })
   isActive: boolean;

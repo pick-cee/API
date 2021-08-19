@@ -1,7 +1,6 @@
-export declare class Parent {
-    splice(): void;
-    find(_arg0: (parent: any) => boolean): void;
-    push(newParent: Parent): void;
+import { BaseEntity } from 'typeorm';
+import { Student } from 'src/Student/student.entities';
+export declare class Parent extends BaseEntity {
     id: string;
     full_name: string;
     age: number;
@@ -10,5 +9,7 @@ export declare class Parent {
     email: string;
     address: string;
     gender: string;
+    student_id: string;
+    student: Student[];
     isActive: boolean;
 }

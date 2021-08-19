@@ -11,16 +11,9 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Parent = void 0;
 const typeorm_1 = require("typeorm");
-let Parent = class Parent {
-    splice() {
-        throw new Error('Method not implemented.');
-    }
-    find(_arg0) {
-        throw new Error('Method not implemented.');
-    }
-    push(newParent) {
-        throw new Error('Method not implemented.');
-    }
+const student_entities_1 = require("../Student/student.entities");
+const typeorm_2 = require("typeorm");
+let Parent = class Parent extends typeorm_1.BaseEntity {
 };
 __decorate([
     typeorm_1.PrimaryGeneratedColumn(),
@@ -54,6 +47,15 @@ __decorate([
     typeorm_1.Column(),
     __metadata("design:type", String)
 ], Parent.prototype, "gender", void 0);
+__decorate([
+    typeorm_1.Column(),
+    __metadata("design:type", String)
+], Parent.prototype, "student_id", void 0);
+__decorate([
+    typeorm_1.OneToMany(() => student_entities_1.Student, (student) => student.id),
+    typeorm_2.JoinColumn({ name: 'student_id' }),
+    __metadata("design:type", Array)
+], Parent.prototype, "student", void 0);
 __decorate([
     typeorm_1.Column({ default: true }),
     __metadata("design:type", Boolean)

@@ -10,8 +10,10 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Class = void 0;
+const student_entities_1 = require("../Student/student.entities");
 const typeorm_1 = require("typeorm");
-let Class = class Class {
+const JoinColumn_1 = require("typeorm/decorator/relations/JoinColumn");
+let Class = class Class extends typeorm_1.BaseEntity {
 };
 __decorate([
     typeorm_1.PrimaryGeneratedColumn(),
@@ -21,6 +23,15 @@ __decorate([
     typeorm_1.Column(),
     __metadata("design:type", String)
 ], Class.prototype, "name", void 0);
+__decorate([
+    typeorm_1.Column(),
+    __metadata("design:type", String)
+], Class.prototype, "student_id", void 0);
+__decorate([
+    typeorm_1.OneToMany(() => student_entities_1.Student, (student) => student.id),
+    JoinColumn_1.JoinColumn({ name: 'student_id' }),
+    __metadata("design:type", student_entities_1.Student)
+], Class.prototype, "student", void 0);
 Class = __decorate([
     typeorm_1.Entity()
 ], Class);

@@ -1,8 +1,17 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { School } from 'src/School/school.entities';
+import { Student } from 'src/Student/student.entities';
+import { JoinColumn } from 'typeorm';
+import {
+  Entity,
+  Column,
+  PrimaryGeneratedColumn,
+  BaseEntity,
+  ManyToOne,
+} from 'typeorm';
 
 @Entity()
-export class AccManager {
+export class AccManager extends BaseEntity {
   find(_arg0: (accMan: any) => boolean) {
     throw new Error('Method not implemented.');
   }
@@ -20,4 +29,8 @@ export class AccManager {
 
   @Column()
   school_id: string;
+
+  @ManyToOne(() => Student, (student) => student.id)
+  @JoinColumn({ name: 'school_id' })
+  school: School;
 }
