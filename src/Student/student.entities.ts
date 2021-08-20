@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import {
   Entity,
   Column,
@@ -9,6 +8,10 @@ import {
 import { Parent } from 'src/parent/parent.entity';
 import { Class } from 'src/Class/class.entity';
 import { JoinColumn } from 'typeorm';
+import { Teacher } from 'src/Teacher/teacher.entity';
+import { School } from 'src/School/school.entities';
+import { OneToOne } from 'typeorm';
+import { Report } from 'src/Report-Card/report.entities';
 @Entity()
 export class Student extends BaseEntity {
   @PrimaryGeneratedColumn()
@@ -53,6 +56,15 @@ export class Student extends BaseEntity {
   @Column()
   parent_id: string;
 
+  @Column()
+  teacher_id: string;
+
+  @Column()
+  school_id: string;
+
+  @Column()
+  report_id: string;
+
   @ManyToOne(() => Parent, (parent) => parent.id)
   @JoinColumn({ name: 'parent_id' })
   parent: Parent;
@@ -60,4 +72,16 @@ export class Student extends BaseEntity {
   @ManyToOne(() => Class, (class1) => class1.id)
   @JoinColumn({ name: 'class_id' })
   class: Class;
+
+  @ManyToOne(() => Teacher, (teacher) => teacher.id)
+  @JoinColumn({ name: 'teacher_id' })
+  teacher: Teacher;
+
+  @ManyToOne(() => School, (school) => school.id)
+  @JoinColumn({ name: 'school_id' })
+  school: School;
+
+  @OneToOne(() => Report, (report) => report.id)
+  @JoinColumn({ name: 'report_id' })
+  report: Report;
 }
