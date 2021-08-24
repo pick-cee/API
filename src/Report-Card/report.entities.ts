@@ -24,12 +24,6 @@ export class Report extends BaseEntity {
   @Column()
   comment: string;
 
-  @Column()
-  student_id: number;
-
-  @Column()
-  teacher_id: number;
-
   @OneToOne(() => Student, (student) => student.id)
   @JoinColumn({ name: 'student_id' })
   student: Student;

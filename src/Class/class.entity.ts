@@ -17,9 +17,6 @@ export class Class extends BaseEntity {
   @Column()
   name: string;
 
-  @Column()
-  student_id: string;
-
   @OneToMany(() => Student, (student) => student.id)
   @JoinColumn({ name: 'student_id' })
   student: Student;

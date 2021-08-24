@@ -10,43 +10,49 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Nurse = void 0;
+const school_entities_1 = require("../School/school.entities");
 const typeorm_1 = require("typeorm");
+const typeorm_2 = require("typeorm");
 let Nurse = class Nurse {
 };
 __decorate([
-    typeorm_1.PrimaryGeneratedColumn(),
+    typeorm_2.PrimaryGeneratedColumn(),
     __metadata("design:type", String)
 ], Nurse.prototype, "id", void 0);
 __decorate([
-    typeorm_1.Column(),
+    typeorm_2.Column(),
     __metadata("design:type", String)
 ], Nurse.prototype, "first_name", void 0);
 __decorate([
-    typeorm_1.Column(),
+    typeorm_2.Column(),
     __metadata("design:type", String)
 ], Nurse.prototype, "last_name", void 0);
 __decorate([
-    typeorm_1.Column(),
+    typeorm_2.Column(),
     __metadata("design:type", String)
 ], Nurse.prototype, "email", void 0);
 __decorate([
-    typeorm_1.Column(),
+    typeorm_2.Column(),
     __metadata("design:type", String)
 ], Nurse.prototype, "password", void 0);
 __decorate([
-    typeorm_1.Column(),
+    typeorm_2.Column(),
     __metadata("design:type", String)
 ], Nurse.prototype, "qualification", void 0);
 __decorate([
-    typeorm_1.Column(),
+    typeorm_2.Column(),
     __metadata("design:type", String)
 ], Nurse.prototype, "photo", void 0);
 __decorate([
-    typeorm_1.Column(),
+    typeorm_2.Column(),
     __metadata("design:type", String)
 ], Nurse.prototype, "other_docs", void 0);
+__decorate([
+    typeorm_1.ManyToOne(() => school_entities_1.School, (school) => school.id),
+    __metadata("design:type", school_entities_1.School)
+], Nurse.prototype, "school", void 0);
 Nurse = __decorate([
-    typeorm_1.Entity()
+    typeorm_2.Entity()
 ], Nurse);
 exports.Nurse = Nurse;
 //# sourceMappingURL=nurse.entities.js.map

@@ -6,6 +6,5 @@ export declare class AccManager extends BaseEntity {
     id: string;
     email: string;
     password: string;
-    school_id: string;
     school: School;
 }

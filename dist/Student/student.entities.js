@@ -13,7 +13,10 @@ exports.Student = void 0;
 const typeorm_1 = require("typeorm");
 const parent_entity_1 = require("../parent/parent.entity");
 const class_entity_1 = require("../Class/class.entity");
+const teacher_entity_1 = require("../Teacher/teacher.entity");
+const school_entities_1 = require("../School/school.entities");
 const typeorm_2 = require("typeorm");
+const report_entities_1 = require("../Report-Card/report.entities");
 let Student = class Student extends typeorm_1.BaseEntity {
 };
 __decorate([
@@ -65,23 +68,25 @@ __decorate([
     __metadata("design:type", String)
 ], Student.prototype, "address", void 0);
 __decorate([
-    typeorm_1.Column(),
-    __metadata("design:type", String)
-], Student.prototype, "class_id", void 0);
-__decorate([
-    typeorm_1.Column(),
-    __metadata("design:type", String)
-], Student.prototype, "parent_id", void 0);
-__decorate([
     typeorm_1.ManyToOne(() => parent_entity_1.Parent, (parent) => parent.id),
-    typeorm_2.JoinColumn({ name: 'parent_id' }),
     __metadata("design:type", parent_entity_1.Parent)
 ], Student.prototype, "parent", void 0);
 __decorate([
     typeorm_1.ManyToOne(() => class_entity_1.Class, (class1) => class1.id),
-    typeorm_2.JoinColumn({ name: 'class_id' }),
     __metadata("design:type", class_entity_1.Class)
 ], Student.prototype, "class", void 0);
+__decorate([
+    typeorm_1.ManyToOne(() => teacher_entity_1.Teacher, (teacher) => teacher.id),
+    __metadata("design:type", teacher_entity_1.Teacher)
+], Student.prototype, "teacher", void 0);
+__decorate([
+    typeorm_1.ManyToOne(() => school_entities_1.School, (school) => school.id),
+    __metadata("design:type", school_entities_1.School)
+], Student.prototype, "school", void 0);
+__decorate([
+    typeorm_2.OneToOne(() => report_entities_1.Report, (report) => report.id),
+    __metadata("design:type", report_entities_1.Report)
+], Student.prototype, "report", void 0);
 Student = __decorate([
     typeorm_1.Entity()
 ], Student);

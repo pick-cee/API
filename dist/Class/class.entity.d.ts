@@ -3,6 +3,5 @@ import { BaseEntity } from 'typeorm';
 export declare class Class extends BaseEntity {
     id: string;
     name: string;
-    student_id: string;
     student: Student;
 }

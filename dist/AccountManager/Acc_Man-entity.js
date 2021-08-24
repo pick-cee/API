@@ -11,10 +11,8 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AccManager = void 0;
 const school_entities_1 = require("../School/school.entities");
-const student_entities_1 = require("../Student/student.entities");
 const typeorm_1 = require("typeorm");
-const typeorm_2 = require("typeorm");
-let AccManager = class AccManager extends typeorm_2.BaseEntity {
+let AccManager = class AccManager extends typeorm_1.BaseEntity {
     find(_arg0) {
         throw new Error('Method not implemented.');
     }
@@ -23,28 +21,23 @@ let AccManager = class AccManager extends typeorm_2.BaseEntity {
     }
 };
 __decorate([
-    typeorm_2.PrimaryGeneratedColumn(),
+    typeorm_1.PrimaryGeneratedColumn(),
     __metadata("design:type", String)
 ], AccManager.prototype, "id", void 0);
 __decorate([
-    typeorm_2.Column(),
+    typeorm_1.Column(),
     __metadata("design:type", String)
 ], AccManager.prototype, "email", void 0);
 __decorate([
-    typeorm_2.Column(),
+    typeorm_1.Column(),
     __metadata("design:type", String)
 ], AccManager.prototype, "password", void 0);
 __decorate([
-    typeorm_2.Column(),
-    __metadata("design:type", String)
-], AccManager.prototype, "school_id", void 0);
-__decorate([
-    typeorm_2.ManyToOne(() => student_entities_1.Student, (student) => student.id),
-    typeorm_1.JoinColumn({ name: 'school_id' }),
+    typeorm_1.ManyToOne(() => school_entities_1.School, (school) => school.id),
     __metadata("design:type", school_entities_1.School)
 ], AccManager.prototype, "school", void 0);
 AccManager = __decorate([
-    typeorm_2.Entity()
+    typeorm_1.Entity()
 ], AccManager);
 exports.AccManager = AccManager;
 //# sourceMappingURL=Acc_Man-entity.js.map

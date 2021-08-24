@@ -34,9 +34,6 @@ export class Parent extends BaseEntity {
   @Column()
   gender: string;
 
-  @Column()
-  student_id: string;
-
   @OneToMany(() => Student, (student) => student.id)
   @JoinColumn({ name: 'student_id' })
   student: Student[];

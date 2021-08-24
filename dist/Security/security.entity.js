@@ -10,30 +10,34 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Security = void 0;
+const school_entities_1 = require("../School/school.entities");
+const class_validator_1 = require("class-validator");
 const typeorm_1 = require("typeorm");
+const typeorm_2 = require("typeorm");
 let Security = class Security {
     push(newSecurity) {
         throw new Error('Method not implemented.');
     }
 };
 __decorate([
-    typeorm_1.PrimaryGeneratedColumn(),
+    typeorm_2.PrimaryGeneratedColumn(),
     __metadata("design:type", String)
 ], Security.prototype, "id", void 0);
 __decorate([
-    typeorm_1.Column(),
+    typeorm_2.Column(),
+    class_validator_1.IsEmail(),
     __metadata("design:type", String)
 ], Security.prototype, "email", void 0);
 __decorate([
-    typeorm_1.Column(),
+    typeorm_2.Column(),
     __metadata("design:type", String)
 ], Security.prototype, "password", void 0);
 __decorate([
-    typeorm_1.Column(),
-    __metadata("design:type", String)
-], Security.prototype, "school_id", void 0);
+    typeorm_1.OneToOne(() => school_entities_1.School, (school) => school.id),
+    __metadata("design:type", school_entities_1.School)
+], Security.prototype, "school", void 0);
 Security = __decorate([
-    typeorm_1.Entity()
+    typeorm_2.Entity()
 ], Security);
 exports.Security = Security;
 //# sourceMappingURL=security.entity.js.map

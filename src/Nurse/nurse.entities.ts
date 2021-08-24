@@ -1,3 +1,5 @@
+import { School } from 'src/School/school.entities';
+import { ManyToOne } from 'typeorm';
 import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
@@ -25,4 +27,7 @@ export class Nurse {
 
   @Column()
   other_docs: string;
+
+  @ManyToOne(() => School, (school) => school.id)
+  school: School;
 }

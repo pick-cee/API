@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { School } from 'src/School/school.entities';
-import { Student } from 'src/Student/student.entities';
 import { JoinColumn } from 'typeorm';
 import {
   Entity,
@@ -27,10 +26,6 @@ export class AccManager extends BaseEntity {
   @Column()
   password: string;
 
-  @Column()
-  school_id: string;
-
-  @ManyToOne(() => Student, (student) => student.id)
-  @JoinColumn({ name: 'school_id' })
+  @ManyToOne(() => School, (school) => school.id)
   school: School;
 }

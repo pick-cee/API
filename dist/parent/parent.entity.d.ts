@@ -9,7 +9,6 @@ export declare class Parent extends BaseEntity {
     email: string;
     address: string;
     gender: string;
-    student_id: string;
     student: Student[];
     isActive: boolean;
 }

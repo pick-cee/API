@@ -1,3 +1,8 @@
+import { AccManager } from 'src/AccountManager/Acc_Man-entity';
+import { Nurse } from 'src/Nurse/nurse.entities';
+import { Security } from 'src/Security/security.entity';
+import { Student } from 'src/Student/student.entities';
+import { Teacher } from 'src/Teacher/teacher.entity';
 export declare class School {
     id: string;
     login_name: string;
@@ -5,6 +10,9 @@ export declare class School {
     name_of_school: string;
     logo: string;
     social_media: string;
-    student_id: number;
-    teacher_id: number;
+    student: Student;
+    teacher: Teacher;
+    accMan: AccManager;
+    nurse: Nurse;
+    security: Security;
 }

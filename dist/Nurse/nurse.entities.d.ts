@@ -1,3 +1,4 @@
+import { School } from 'src/School/school.entities';
 export declare class Nurse {
     id: string;
     first_name: string;
@@ -7,4 +8,5 @@ export declare class Nurse {
     qualification: string;
     photo: string;
     other_docs: string;
+    school: School;
 }

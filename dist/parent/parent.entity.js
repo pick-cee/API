@@ -48,10 +48,6 @@ __decorate([
     __metadata("design:type", String)
 ], Parent.prototype, "gender", void 0);
 __decorate([
-    typeorm_1.Column(),
-    __metadata("design:type", String)
-], Parent.prototype, "student_id", void 0);
-__decorate([
     typeorm_1.OneToMany(() => student_entities_1.Student, (student) => student.id),
     typeorm_2.JoinColumn({ name: 'student_id' }),
     __metadata("design:type", Array)

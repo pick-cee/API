@@ -50,38 +50,18 @@ export class Student extends BaseEntity {
   @Column()
   address: string;
 
-  @Column()
-  class_id: string;
-
-  @Column()
-  parent_id: string;
-
-  @Column()
-  teacher_id: string;
-
-  @Column()
-  school_id: string;
-
-  @Column()
-  report_id: string;
-
   @ManyToOne(() => Parent, (parent) => parent.id)
-  @JoinColumn({ name: 'parent_id' })
   parent: Parent;
 
   @ManyToOne(() => Class, (class1) => class1.id)
-  @JoinColumn({ name: 'class_id' })
   class: Class;
 
   @ManyToOne(() => Teacher, (teacher) => teacher.id)
-  @JoinColumn({ name: 'teacher_id' })
   teacher: Teacher;
 
   @ManyToOne(() => School, (school) => school.id)
-  @JoinColumn({ name: 'school_id' })
   school: School;
 
   @OneToOne(() => Report, (report) => report.id)
-  @JoinColumn({ name: 'report_id' })
   report: Report;
 }

@@ -35,24 +35,12 @@ export class Teacher {
   @Column()
   other_docs: string;
 
-  @Column()
-  school_id: string;
-
-  @Column()
-  student_id: string;
-
-  @Column()
-  report_id: string;
-
   @OneToMany(() => Student, (student) => student.id)
-  @JoinColumn({ name: 'student_id' })
   student: Student;
 
   @ManyToOne(() => School, (school) => school.id)
-  @JoinColumn({ name: 'school_id ' })
   school: School;
 
   @ManyToOne(() => Report, (report) => report.id)
-  @JoinColumn({ name: 'report_id' })
   report: Report;
 }

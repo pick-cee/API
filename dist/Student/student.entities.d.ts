@@ -1,6 +1,9 @@
 import { BaseEntity } from 'typeorm';
 import { Parent } from 'src/parent/parent.entity';
 import { Class } from 'src/Class/class.entity';
+import { Teacher } from 'src/Teacher/teacher.entity';
+import { School } from 'src/School/school.entities';
+import { Report } from 'src/Report-Card/report.entities';
 export declare class Student extends BaseEntity {
     id: string;
     first_name: string;
@@ -14,8 +17,9 @@ export declare class Student extends BaseEntity {
     email: string;
     profile_pic: string;
     address: string;
-    class_id: string;
-    parent_id: string;
     parent: Parent;
     class: Class;
+    teacher: Teacher;
+    school: School;
+    report: Report;
 }
