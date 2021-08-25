@@ -8,6 +8,7 @@ import {
 } from 'typeorm';
 import { Student } from 'src/Student/student.entities';
 import { JoinColumn } from 'typeorm';
+import { IsEmail } from 'class-validator';
 @Entity()
 export class Parent extends BaseEntity {
   @PrimaryGeneratedColumn()
@@ -26,6 +27,7 @@ export class Parent extends BaseEntity {
   phone_number: number;
 
   @Column()
+  @IsEmail()
   email: string;
 
   @Column()

@@ -12,6 +12,7 @@ import { Teacher } from 'src/Teacher/teacher.entity';
 import { School } from 'src/School/school.entities';
 import { OneToOne } from 'typeorm';
 import { Report } from 'src/Report-Card/report.entities';
+import { IsEmail } from 'class-validator';
 @Entity()
 export class Student extends BaseEntity {
   @PrimaryGeneratedColumn()
@@ -42,6 +43,7 @@ export class Student extends BaseEntity {
   gender: string;
 
   @Column()
+  @IsEmail()
   email: string;
 
   @Column()
@@ -51,17 +53,22 @@ export class Student extends BaseEntity {
   address: string;
 
   @ManyToOne(() => Parent, (parent) => parent.id)
+  @JoinColumn({ name: 'parent_id' })
   parent: Parent;
 
   @ManyToOne(() => Class, (class1) => class1.id)
+  @JoinColumn({ name: 'class_id' })
   class: Class;
 
   @ManyToOne(() => Teacher, (teacher) => teacher.id)
+  @JoinColumn({ name: 'teacher_id' })
   teacher: Teacher;
 
   @ManyToOne(() => School, (school) => school.id)
+  @JoinColumn({ name: 'school_id' })
   school: School;
 
   @OneToOne(() => Report, (report) => report.id)
+  @JoinColumn({ name: 'report_id' })
   report: Report;
 }

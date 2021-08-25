@@ -1,3 +1,4 @@
+import { IsNotEmpty } from 'class-validator';
 import { Student } from 'src/Student/student.entities';
 import { Teacher } from 'src/Teacher/teacher.entity';
 import { ManyToOne } from 'typeorm';
@@ -19,6 +20,7 @@ export class Report extends BaseEntity {
   subject: string;
 
   @Column()
+  @IsNotEmpty()
   grade: string;
 
   @Column()

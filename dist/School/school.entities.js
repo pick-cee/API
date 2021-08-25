@@ -10,6 +10,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.School = void 0;
+const class_validator_1 = require("class-validator");
 const Acc_Man_entity_1 = require("../AccountManager/Acc_Man-entity");
 const nurse_entities_1 = require("../Nurse/nurse.entities");
 const security_entity_1 = require("../Security/security.entity");
@@ -31,6 +32,7 @@ __decorate([
 ], School.prototype, "login_name", void 0);
 __decorate([
     typeorm_4.Column(),
+    class_validator_1.IsNotEmpty(),
     __metadata("design:type", String)
 ], School.prototype, "password", void 0);
 __decorate([

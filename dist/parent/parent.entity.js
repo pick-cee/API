@@ -13,6 +13,7 @@ exports.Parent = void 0;
 const typeorm_1 = require("typeorm");
 const student_entities_1 = require("../Student/student.entities");
 const typeorm_2 = require("typeorm");
+const class_validator_1 = require("class-validator");
 let Parent = class Parent extends typeorm_1.BaseEntity {
 };
 __decorate([
@@ -37,6 +38,7 @@ __decorate([
 ], Parent.prototype, "phone_number", void 0);
 __decorate([
     typeorm_1.Column(),
+    class_validator_1.IsEmail(),
     __metadata("design:type", String)
 ], Parent.prototype, "email", void 0);
 __decorate([

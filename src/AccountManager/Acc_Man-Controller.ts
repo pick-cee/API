@@ -2,7 +2,7 @@
 import { Post } from '@nestjs/common';
 import { Body } from '@nestjs/common';
 import { Put } from '@nestjs/common';
-import { Param, Patch } from '@nestjs/common';
+import { Param } from '@nestjs/common';
 import { Controller, Get, Delete } from '@nestjs/common';
 import { AccManager } from './Acc_Man-entity';
 import { AccManService } from './Acc_Man-Services';

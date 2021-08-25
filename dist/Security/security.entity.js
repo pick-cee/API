@@ -14,6 +14,7 @@ const school_entities_1 = require("../School/school.entities");
 const class_validator_1 = require("class-validator");
 const typeorm_1 = require("typeorm");
 const typeorm_2 = require("typeorm");
+const typeorm_3 = require("typeorm");
 let Security = class Security {
     push(newSecurity) {
         throw new Error('Method not implemented.');
@@ -34,6 +35,7 @@ __decorate([
 ], Security.prototype, "password", void 0);
 __decorate([
     typeorm_1.OneToOne(() => school_entities_1.School, (school) => school.id),
+    typeorm_3.JoinColumn({ name: 'school_id' }),
     __metadata("design:type", school_entities_1.School)
 ], Security.prototype, "school", void 0);
 Security = __decorate([

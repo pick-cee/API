@@ -10,6 +10,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Report = void 0;
+const class_validator_1 = require("class-validator");
 const student_entities_1 = require("../Student/student.entities");
 const teacher_entity_1 = require("../Teacher/teacher.entity");
 const typeorm_1 = require("typeorm");
@@ -27,6 +28,7 @@ __decorate([
 ], Report.prototype, "subject", void 0);
 __decorate([
     typeorm_3.Column(),
+    class_validator_1.IsNotEmpty(),
     __metadata("design:type", String)
 ], Report.prototype, "grade", void 0);
 __decorate([

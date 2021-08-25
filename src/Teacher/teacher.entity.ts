@@ -1,3 +1,4 @@
+import { IsEmail } from 'class-validator';
 import { Report } from 'src/Report-Card/report.entities';
 import { School } from 'src/School/school.entities';
 import { Student } from 'src/Student/student.entities';
@@ -21,6 +22,7 @@ export class Teacher {
   age: string;
 
   @Column()
+  @IsEmail()
   email: string;
 
   @Column()
@@ -36,11 +38,14 @@ export class Teacher {
   other_docs: string;
 
   @OneToMany(() => Student, (student) => student.id)
+  @JoinColumn({ name: 'student_id' })
   student: Student;
 
   @ManyToOne(() => School, (school) => school.id)
+  @JoinColumn({ name: 'school_id' })
   school: School;
 
   @ManyToOne(() => Report, (report) => report.id)
+  @JoinColumn({ name: 'report_id' })
   report: Report;
 }

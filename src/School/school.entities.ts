@@ -1,3 +1,4 @@
+import { IsNotEmpty } from 'class-validator';
 import { AccManager } from 'src/AccountManager/Acc_Man-entity';
 import { Nurse } from 'src/Nurse/nurse.entities';
 import { Security } from 'src/Security/security.entity';
@@ -17,6 +18,7 @@ export class School {
   login_name: string;
 
   @Column()
+  @IsNotEmpty()
   password: string;
 
   @Column()

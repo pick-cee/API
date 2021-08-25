@@ -17,7 +17,6 @@ const common_1 = require("@nestjs/common");
 const common_2 = require("@nestjs/common");
 const common_3 = require("@nestjs/common");
 const common_4 = require("@nestjs/common");
-const common_5 = require("@nestjs/common");
 const school_entities_1 = require("./school.entities");
 const school_services_1 = require("./school.services");
 let schoolController = class schoolController {
@@ -41,34 +40,34 @@ let schoolController = class schoolController {
 };
 __decorate([
     common_1.Post('create'),
-    __param(0, common_2.Body()),
+    __param(0, common_1.Body()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [school_entities_1.School]),
     __metadata("design:returntype", Promise)
 ], schoolController.prototype, "addSecurity", null);
 __decorate([
-    common_5.Get(),
+    common_4.Get(),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", Promise)
 ], schoolController.prototype, "getAll", null);
 __decorate([
-    common_3.Put(':id/update'),
-    __param(0, common_4.Param('id')),
-    __param(1, common_2.Body()),
+    common_2.Put(':id/update'),
+    __param(0, common_3.Param('id')),
+    __param(1, common_1.Body()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object, school_entities_1.School]),
     __metadata("design:returntype", Promise)
 ], schoolController.prototype, "update", null);
 __decorate([
-    common_5.Delete(':id/delete'),
-    __param(0, common_4.Param('id')),
+    common_4.Delete(':id/delete'),
+    __param(0, common_3.Param('id')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", Promise)
 ], schoolController.prototype, "delete", null);
 schoolController = __decorate([
-    common_5.Controller('school'),
+    common_4.Controller('school'),
     __metadata("design:paramtypes", [school_services_1.schoolServices])
 ], schoolController);
 exports.schoolController = schoolController;
