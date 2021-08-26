@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { IsEmail, IsNotEmpty } from 'class-validator';
 import { School } from 'src/School/school.entities';
+import { BeforeInsert } from 'typeorm';
 import { JoinColumn } from 'typeorm';
 import {
   Entity,
@@ -21,7 +22,7 @@ export class AccManager extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: string;
 
-  @Column()
+  @Column({ unique: true })
   @IsEmail()
   email: string;
 

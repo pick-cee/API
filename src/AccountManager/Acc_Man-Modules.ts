@@ -8,5 +8,6 @@ import { AccManager } from './Acc_Man-entity';
   imports: [TypeOrmModule.forFeature([AccManager])],
   providers: [AccManService],
   controllers: [AccManController],
+  exports: [AccManService],
 })
 export class AccManModules {}

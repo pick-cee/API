@@ -6,10 +6,14 @@ import { Param } from '@nestjs/common';
 import { Controller, Get, Delete } from '@nestjs/common';
 import { AccManager } from './Acc_Man-entity';
 import { AccManService } from './Acc_Man-Services';
+import { AuthenticationService } from 'src/authentication/authentication.service';
 
 @Controller('accMan')
 export class AccManController {
-  constructor(private readonly accManService: AccManService) {}
+  constructor(
+    private readonly accManService: AccManService,
+    validate: AuthenticationService,
+  ) {}
 
   @Post('create')
   async addAccMan(@Body() accManData: AccManager): Promise<any> {
