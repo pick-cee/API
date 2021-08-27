@@ -1,8 +1,9 @@
 import { AccManager } from './Acc_Man-entity';
 import { AccManService } from './Acc_Man-Services';
+import { AuthenticationService } from 'src/authentication/authentication.service';
 export declare class AccManController {
     private readonly accManService;
-    constructor(accManService: AccManService);
+    constructor(accManService: AccManService, validate: AuthenticationService);
     addAccMan(accManData: AccManager): Promise<any>;
     ggetAll(): Promise<AccManager[]>;
     update(id: any, accManData: AccManager): Promise<any>;

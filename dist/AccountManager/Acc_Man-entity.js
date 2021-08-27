@@ -27,7 +27,7 @@ __decorate([
     __metadata("design:type", String)
 ], AccManager.prototype, "id", void 0);
 __decorate([
-    typeorm_2.Column(),
+    typeorm_2.Column({ unique: true }),
     class_validator_1.IsEmail(),
     __metadata("design:type", String)
 ], AccManager.prototype, "email", void 0);

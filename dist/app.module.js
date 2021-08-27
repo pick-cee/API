@@ -33,6 +33,7 @@ const report_modules_1 = require("./Report-Card/report.modules");
 const school_modules_1 = require("./School/school.modules");
 const student_modules_1 = require("./Student/student.modules");
 const teacher_modules_1 = require("./Teacher/teacher.modules");
+const authentication_module_1 = require("./authentication/authentication.module");
 let AppModule = class AppModule {
     constructor(connection) {
         this.connection = connection;
@@ -70,6 +71,7 @@ AppModule = __decorate([
             school_modules_1.SchoolModule,
             student_modules_1.StudentModule,
             teacher_modules_1.TeacherModule,
+            authentication_module_1.AuthenticationModule,
         ],
         controllers: [app_controller_1.AppController],
         providers: [app_service_1.AppService],

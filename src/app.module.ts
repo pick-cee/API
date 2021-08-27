@@ -22,6 +22,7 @@ import { ReportModules } from './Report-Card/report.modules';
 import { SchoolModule } from './School/school.modules';
 import { StudentModule } from './Student/student.modules';
 import { TeacherModule } from './Teacher/teacher.modules';
+import { AuthenticationModule } from './authentication/authentication.module';
 
 @Module({
   imports: [
@@ -54,6 +55,7 @@ import { TeacherModule } from './Teacher/teacher.modules';
     SchoolModule,
     StudentModule,
     TeacherModule,
+    AuthenticationModule,
   ],
   controllers: [AppController],
   providers: [AppService],

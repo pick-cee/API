@@ -12,13 +12,16 @@ const typeorm_1 = require("@nestjs/typeorm");
 const Acc_Man_Services_1 = require("./Acc_Man-Services");
 const Acc_Man_Controller_1 = require("./Acc_Man-Controller");
 const Acc_Man_entity_1 = require("./Acc_Man-entity");
+const authentication_service_1 = require("../authentication/authentication.service");
+const authentication_controller_1 = require("../authentication/authentication.controller");
 let AccManModules = class AccManModules {
 };
 AccManModules = __decorate([
     common_1.Module({
         imports: [typeorm_1.TypeOrmModule.forFeature([Acc_Man_entity_1.AccManager])],
-        providers: [Acc_Man_Services_1.AccManService],
-        controllers: [Acc_Man_Controller_1.AccManController],
+        providers: [Acc_Man_Services_1.AccManService, authentication_service_1.AuthenticationService],
+        controllers: [Acc_Man_Controller_1.AccManController, authentication_controller_1.AuthenticationController],
+        exports: [Acc_Man_Services_1.AccManService],
     })
 ], AccManModules);
 exports.AccManModules = AccManModules;

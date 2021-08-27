@@ -24,6 +24,13 @@ let AccManService = class AccManService {
     async createaccMan(accMan) {
         return await this.usersRepository.save(accMan);
     }
+    async getByEmail(email) {
+        const user = await this.usersRepository.findOne({ email });
+        if (user) {
+            return user;
+        }
+        throw new common_1.HttpException('User with this email does not exist', common_1.HttpStatus.NOT_FOUND);
+    }
     async findAll() {
         return await this.usersRepository.find();
     }

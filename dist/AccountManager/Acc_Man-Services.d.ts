@@ -6,7 +6,8 @@ export declare class AccManService {
     private usersRepository;
     private accMan;
     constructor(usersRepository: Repository<AccManager>);
-    createaccMan(accMan: AccManager): Promise<AccManager>;
+    createaccMan(accMan: any): Promise<any>;
+    getByEmail(email: string): Promise<AccManager>;
     findAll(): Promise<AccManager[]>;
     update(accMan: AccManager): Promise<UpdateResult>;
     delete(accMan_id: any): Promise<DeleteResult>;

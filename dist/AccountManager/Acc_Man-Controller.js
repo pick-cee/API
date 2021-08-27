@@ -20,8 +20,9 @@ const common_4 = require("@nestjs/common");
 const common_5 = require("@nestjs/common");
 const Acc_Man_entity_1 = require("./Acc_Man-entity");
 const Acc_Man_Services_1 = require("./Acc_Man-Services");
+const authentication_service_1 = require("../authentication/authentication.service");
 let AccManController = class AccManController {
-    constructor(accManService) {
+    constructor(accManService, validate) {
         this.accManService = accManService;
     }
     async addAccMan(accManData) {
@@ -70,7 +71,8 @@ __decorate([
 ], AccManController.prototype, "removeParent", null);
 AccManController = __decorate([
     common_5.Controller('accMan'),
-    __metadata("design:paramtypes", [Acc_Man_Services_1.AccManService])
+    __metadata("design:paramtypes", [Acc_Man_Services_1.AccManService,
+        authentication_service_1.AuthenticationService])
 ], AccManController);
 exports.AccManController = AccManController;
 //# sourceMappingURL=Acc_Man-Controller.js.map
