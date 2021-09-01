@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import {
   Entity,
   Column,
@@ -8,11 +7,13 @@ import {
   BeforeInsert,
 } from 'typeorm';
 import { Student } from 'src/Student/student.entities';
+import { Parent } from 'src/parent/parent.entity';
 import { JoinColumn } from 'typeorm';
 import { IsEmail, IsNotEmpty } from 'class-validator';
 import * as bcrypt from 'bcrypt';
+
 @Entity()
-export class Parent extends BaseEntity {
+export class User extends BaseEntity {
   @PrimaryGeneratedColumn()
   id: string;
 
@@ -26,7 +27,7 @@ export class Parent extends BaseEntity {
   profile_pic: string;
 
   @Column()
-  phone_number: string;
+  phone_number: number;
 
   @Column()
   @IsEmail()
@@ -49,6 +50,7 @@ export class Parent extends BaseEntity {
   @JoinColumn({ name: 'student_id' })
   student: Student[];
 
-  @Column({ default: true })
-  isActive: boolean;
+  @OneToMany(() => Parent, (parent) => parent.id)
+  @JoinColumn({ name: 'parent_id' })
+  parent: Parent[];
 }

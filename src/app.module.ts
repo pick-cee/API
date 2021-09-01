@@ -23,6 +23,8 @@ import { SchoolModule } from './School/school.modules';
 import { StudentModule } from './Student/student.modules';
 import { TeacherModule } from './Teacher/teacher.modules';
 import { AuthenticationModule } from './authentication/authentication.module';
+import { User } from './User/user.entity';
+import { UserModules } from './User/user.module';
 
 @Module({
   imports: [
@@ -43,6 +45,7 @@ import { AuthenticationModule } from './authentication/authentication.module';
         School,
         Teacher,
         AccManager,
+        User,
       ],
       synchronize: true,
     }),
@@ -56,6 +59,7 @@ import { AuthenticationModule } from './authentication/authentication.module';
     StudentModule,
     TeacherModule,
     AuthenticationModule,
+    UserModules,
   ],
   controllers: [AppController],
   providers: [AppService],

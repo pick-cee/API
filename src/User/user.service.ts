@@ -3,18 +3,18 @@ import { HttpException } from '@nestjs/common';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository, UpdateResult, DeleteResult } from 'typeorm';
-import { Parent } from './parent.entity';
+import { User } from './user.entity';
 
 @Injectable()
-export class parentService {
-  private parent: Parent;
+export class userService {
+  private user: User;
   constructor(
-    @InjectRepository(Parent)
-    private usersRepository: Repository<Parent>,
+    @InjectRepository(User)
+    private usersRepository: Repository<User>,
   ) {}
 
-  async createPar(parent): Promise<Parent> {
-    return await this.usersRepository.save(parent);
+  async createUser(user): Promise<User> {
+    return await this.usersRepository.save(user);
   }
 
   async getByEmail(email: string) {
@@ -28,15 +28,15 @@ export class parentService {
     );
   }
 
-  async findAll(): Promise<Parent[]> {
+  async findAll(): Promise<User[]> {
     return await this.usersRepository.find();
   }
 
-  async update(parent: Parent): Promise<UpdateResult> {
-    return await this.usersRepository.update(parent.id, parent);
+  async update(user: User): Promise<UpdateResult> {
+    return await this.usersRepository.update(user.id, user);
   }
 
-  async delete(parent_id): Promise<DeleteResult> {
-    return this.usersRepository.delete(parent_id);
+  async delete(user_id): Promise<DeleteResult> {
+    return this.usersRepository.delete(user_id);
   }
 }

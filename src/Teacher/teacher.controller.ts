@@ -5,14 +5,30 @@ import { Param } from '@nestjs/common';
 import { Controller, Get, Delete } from '@nestjs/common';
 import { Teacher } from './teacher.entity';
 import { teacherServices } from './teacher.services';
+import * as bcrypt from 'bcrypt';
 
 @Controller('sec')
 export class teacherController {
   constructor(private readonly teacherService: teacherServices) {}
 
   @Post('create')
-  async addSecurity(@Body() teacherData: Teacher): Promise<any> {
-    return this.teacherService.createTeacher(teacherData);
+  async addTeacher(@Body() teacherData: Teacher): Promise<any> {
+    const hashedPassword = await bcrypt.hash(teacherData.password, 10);
+    try {
+      const createdUser = await this.teacherService.createTeacher({
+        ...teacherData,
+        password: hashedPassword,
+      });
+      createdUser.password = undefined;
+      return createdUser;
+    } catch (error) {
+      return error;
+    }
+  }
+
+  @Get(':email')
+  getSingleTeacher(@Param('email') teacher_email: string) {
+    return this.teacherService.getByEmail(teacher_email);
   }
 
   @Get()

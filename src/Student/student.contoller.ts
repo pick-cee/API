@@ -14,6 +14,11 @@ export class studentController {
     return this.studentService.createStudent(studentData);
   }
 
+  @Get(':email')
+  getSingleStudent(@Param('email') student_email: string) {
+    return this.studentService.getByEmail(student_email);
+  }
+
   @Get()
   getAll(): Promise<Student[]> {
     return this.studentService.findAll();

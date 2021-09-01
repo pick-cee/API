@@ -7,6 +7,7 @@ export declare class studentServices {
     private student;
     constructor(usersRepository: Repository<Student>);
     createStudent(student: Student): Promise<Student>;
+    getByEmail(email: string): Promise<Student>;
     findAll(): Promise<Student[]>;
     update(student: Student): Promise<UpdateResult>;
     delete(id: any): Promise<DeleteResult>;

@@ -5,20 +5,30 @@ import { Param } from '@nestjs/common';
 import { Controller, Get, Delete } from '@nestjs/common';
 import { Parent } from './parent.entity';
 import { parentService } from './parents.service';
-
+import * as bcrypt from 'bcrypt';
 @Controller('parent')
 export class ParentsController {
   constructor(private readonly parentsService: parentService) {}
 
   @Post('create')
-  async addSecurity(@Body() parData: Parent): Promise<any> {
-    return this.parentsService.createPar(parData);
+  async addParent(@Body() parData: Parent): Promise<any> {
+    const hashedPassword = await bcrypt.hash(parData.password, 10);
+    try {
+      const createdUser = await this.parentsService.createPar({
+        ...parData,
+        password: hashedPassword,
+      });
+      createdUser.password = undefined;
+      return createdUser;
+    } catch (error) {
+      return error;
+    }
   }
 
-  /*@Get(':id')
-  getSingleParent(@Param('id') parent_id: string) {
-    return this.parentsService.getOne(parent_id);
-  }*/
+  @Get(':email')
+  getSingle(@Param('email') parent_email: string) {
+    return this.parentsService.getByEmail(parent_email);
+  }
 
   @Get()
   getAll(): Promise<Parent[]> {

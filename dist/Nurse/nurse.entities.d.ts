@@ -5,6 +5,7 @@ export declare class Nurse {
     last_name: string;
     email: string;
     password: string;
+    hashPassword(): Promise<void>;
     qualification: string;
     photo: string;
     other_docs: string;

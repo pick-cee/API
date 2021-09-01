@@ -7,7 +7,7 @@ import { Class } from './class.entity';
 import { classServices } from './class.services';
 
 @Controller('class')
-export class securityController {
+export class classController {
   constructor(private readonly classService: classServices) {}
 
   @Post('create')

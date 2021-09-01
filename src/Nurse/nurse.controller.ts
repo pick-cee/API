@@ -5,14 +5,29 @@ import { Param } from '@nestjs/common';
 import { Controller, Get, Delete } from '@nestjs/common';
 import { Nurse } from './nurse.entities';
 import { nurseServices } from './nurse.services';
-
+import * as bcrypt from 'bcrypt';
 @Controller('nurse')
-export class securityController {
+export class nurseController {
   constructor(private readonly nurseService: nurseServices) {}
 
   @Post('create')
-  async addSecurity(@Body() nurseData: Nurse): Promise<any> {
-    return this.nurseService.createNurse(nurseData);
+  async addNurse(@Body() nurseData: Nurse): Promise<any> {
+    const hashedPassword = await bcrypt.hash(nurseData.password, 10);
+    try {
+      const createdUser = await this.nurseService.createNurse({
+        ...nurseData,
+        password: hashedPassword,
+      });
+      createdUser.password = undefined;
+      return createdUser;
+    } catch (error) {
+      return error;
+    }
+  }
+
+  @Get(':email')
+  getSingleNurse(@Param('email') nurse_email: string) {
+    return this.nurseService.getByEmail(nurse_email);
   }
 
   @Get()

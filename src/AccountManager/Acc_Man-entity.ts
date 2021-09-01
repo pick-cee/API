@@ -10,15 +10,10 @@ import {
   BaseEntity,
   ManyToOne,
 } from 'typeorm';
+import * as bcrypt from 'bcrypt';
 
 @Entity()
 export class AccManager extends BaseEntity {
-  find(_arg0: (accMan: any) => boolean) {
-    throw new Error('Method not implemented.');
-  }
-  push(_newAccManager: AccManager) {
-    throw new Error('Method not implemented.');
-  }
   @PrimaryGeneratedColumn()
   id: string;
 
@@ -29,6 +24,9 @@ export class AccManager extends BaseEntity {
   @Column()
   @IsNotEmpty()
   password: string;
+  @BeforeInsert() async hashPassword() {
+    this.password = await bcrypt.hash(this.password, 10);
+  }
 
   @ManyToOne(() => School, (school) => school.id)
   @JoinColumn({ name: 'school_id' })

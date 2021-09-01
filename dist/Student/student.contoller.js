@@ -27,6 +27,9 @@ let studentController = class studentController {
     async addStudent(studentData) {
         return this.studentService.createStudent(studentData);
     }
+    getSingleStudent(student_email) {
+        return this.studentService.getByEmail(student_email);
+    }
     getAll() {
         return this.studentService.findAll();
     }
@@ -46,6 +49,13 @@ __decorate([
     __metadata("design:paramtypes", [student_entities_1.Student]),
     __metadata("design:returntype", Promise)
 ], studentController.prototype, "addStudent", null);
+__decorate([
+    common_5.Get(':email'),
+    __param(0, common_4.Param('email')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", void 0)
+], studentController.prototype, "getSingleStudent", null);
 __decorate([
     common_5.Get(),
     __metadata("design:type", Function),

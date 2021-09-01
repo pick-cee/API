@@ -14,7 +14,11 @@ const typeorm_1 = require("typeorm");
 const student_entities_1 = require("../Student/student.entities");
 const typeorm_2 = require("typeorm");
 const class_validator_1 = require("class-validator");
+const bcrypt = require("bcrypt");
 let Parent = class Parent extends typeorm_1.BaseEntity {
+    async hashPassword() {
+        this.password = await bcrypt.hash(this.password, 10);
+    }
 };
 __decorate([
     typeorm_1.PrimaryGeneratedColumn(),
@@ -34,13 +38,24 @@ __decorate([
 ], Parent.prototype, "profile_pic", void 0);
 __decorate([
     typeorm_1.Column(),
-    __metadata("design:type", Number)
+    __metadata("design:type", String)
 ], Parent.prototype, "phone_number", void 0);
 __decorate([
     typeorm_1.Column(),
     class_validator_1.IsEmail(),
     __metadata("design:type", String)
 ], Parent.prototype, "email", void 0);
+__decorate([
+    typeorm_1.Column(),
+    class_validator_1.IsNotEmpty(),
+    __metadata("design:type", String)
+], Parent.prototype, "password", void 0);
+__decorate([
+    typeorm_1.BeforeInsert(),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", Promise)
+], Parent.prototype, "hashPassword", null);
 __decorate([
     typeorm_1.Column(),
     __metadata("design:type", String)

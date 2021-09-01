@@ -7,7 +7,7 @@ import { Controller, Get, Delete } from '@nestjs/common';
 import { AccManager } from './Acc_Man-entity';
 import { AccManService } from './Acc_Man-Services';
 import { AuthenticationService } from 'src/authentication/authentication.service';
-
+import * as bcrypt from 'bcrypt';
 @Controller('accMan')
 export class AccManController {
   constructor(
@@ -17,13 +17,23 @@ export class AccManController {
 
   @Post('create')
   async addAccMan(@Body() accManData: AccManager): Promise<any> {
-    return this.accManService.createaccMan(accManData);
+    const hashedPassword = await bcrypt.hash(accManData.password, 10);
+    try {
+      const createdUser = await this.accManService.createaccMan({
+        ...accManData,
+        password: hashedPassword,
+      });
+      createdUser.password = undefined;
+      return createdUser;
+    } catch (error) {
+      return error;
+    }
   }
 
-  /*@Get(':id')
-  getSingleAccMan(@Param('id') accMan_id: string) {
-    return this.accManService.getOne(accMan_id);
-  }*/
+  @Get(':email')
+  getSingleAccMan(@Param('email') accMan_email: string) {
+    return this.accManService.getByEmail(accMan_email);
+  }
 
   @Get()
   ggetAll(): Promise<AccManager[]> {

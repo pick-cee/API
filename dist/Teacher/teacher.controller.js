@@ -20,12 +20,24 @@ const common_4 = require("@nestjs/common");
 const common_5 = require("@nestjs/common");
 const teacher_entity_1 = require("./teacher.entity");
 const teacher_services_1 = require("./teacher.services");
+const bcrypt = require("bcrypt");
 let teacherController = class teacherController {
     constructor(teacherService) {
         this.teacherService = teacherService;
     }
-    async addSecurity(teacherData) {
-        return this.teacherService.createTeacher(teacherData);
+    async addTeacher(teacherData) {
+        const hashedPassword = await bcrypt.hash(teacherData.password, 10);
+        try {
+            const createdUser = await this.teacherService.createTeacher(Object.assign(Object.assign({}, teacherData), { password: hashedPassword }));
+            createdUser.password = undefined;
+            return createdUser;
+        }
+        catch (error) {
+            return error;
+        }
+    }
+    getSingleTeacher(teacher_email) {
+        return this.teacherService.getByEmail(teacher_email);
     }
     getAll() {
         return this.teacherService.findAll();
@@ -45,7 +57,14 @@ __decorate([
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [teacher_entity_1.Teacher]),
     __metadata("design:returntype", Promise)
-], teacherController.prototype, "addSecurity", null);
+], teacherController.prototype, "addTeacher", null);
+__decorate([
+    common_5.Get(':email'),
+    __param(0, common_4.Param('email')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", void 0)
+], teacherController.prototype, "getSingleTeacher", null);
 __decorate([
     common_5.Get(),
     __metadata("design:type", Function),

@@ -10,13 +10,15 @@ exports.TeacherModule = void 0;
 const common_1 = require("@nestjs/common");
 const teacher_entity_1 = require("./teacher.entity");
 const typeorm_1 = require("@nestjs/typeorm");
+const teacher_services_1 = require("./teacher.services");
+const teacher_controller_1 = require("./teacher.controller");
 let TeacherModule = class TeacherModule {
 };
 TeacherModule = __decorate([
     common_1.Module({
         imports: [typeorm_1.TypeOrmModule.forFeature([teacher_entity_1.Teacher])],
-        providers: [],
-        controllers: [],
+        providers: [teacher_services_1.teacherServices],
+        controllers: [teacher_controller_1.teacherController],
     })
 ], TeacherModule);
 exports.TeacherModule = TeacherModule;

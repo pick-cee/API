@@ -15,9 +15,11 @@ const class_validator_1 = require("class-validator");
 const typeorm_1 = require("typeorm");
 const typeorm_2 = require("typeorm");
 const typeorm_3 = require("typeorm");
+const bcrypt = require("bcrypt");
+const typeorm_4 = require("typeorm");
 let Security = class Security {
-    push(newSecurity) {
-        throw new Error('Method not implemented.');
+    async hashPassword() {
+        this.password = await bcrypt.hash(this.password, 10);
     }
 };
 __decorate([
@@ -31,8 +33,15 @@ __decorate([
 ], Security.prototype, "email", void 0);
 __decorate([
     typeorm_2.Column(),
+    class_validator_1.IsNotEmpty(),
     __metadata("design:type", String)
 ], Security.prototype, "password", void 0);
+__decorate([
+    typeorm_4.BeforeInsert(),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", Promise)
+], Security.prototype, "hashPassword", null);
 __decorate([
     typeorm_1.OneToOne(() => school_entities_1.School, (school) => school.id),
     typeorm_3.JoinColumn({ name: 'school_id' }),

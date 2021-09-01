@@ -34,6 +34,8 @@ const school_modules_1 = require("./School/school.modules");
 const student_modules_1 = require("./Student/student.modules");
 const teacher_modules_1 = require("./Teacher/teacher.modules");
 const authentication_module_1 = require("./authentication/authentication.module");
+const user_entity_1 = require("./User/user.entity");
+const user_module_1 = require("./User/user.module");
 let AppModule = class AppModule {
     constructor(connection) {
         this.connection = connection;
@@ -59,6 +61,7 @@ AppModule = __decorate([
                     school_entities_1.School,
                     teacher_entity_1.Teacher,
                     Acc_Man_entity_1.AccManager,
+                    user_entity_1.User,
                 ],
                 synchronize: true,
             }),
@@ -72,6 +75,7 @@ AppModule = __decorate([
             student_modules_1.StudentModule,
             teacher_modules_1.TeacherModule,
             authentication_module_1.AuthenticationModule,
+            user_module_1.UserModules,
         ],
         controllers: [app_controller_1.AppController],
         providers: [app_service_1.AppService],

@@ -15,7 +15,12 @@ const school_entities_1 = require("../School/school.entities");
 const typeorm_1 = require("typeorm");
 const typeorm_2 = require("typeorm");
 const typeorm_3 = require("typeorm");
+const bcrypt = require("bcrypt");
+const typeorm_4 = require("typeorm");
 let Nurse = class Nurse {
+    async hashPassword() {
+        this.password = await bcrypt.hash(this.password, 10);
+    }
 };
 __decorate([
     typeorm_3.PrimaryGeneratedColumn(),
@@ -39,6 +44,12 @@ __decorate([
     class_validator_1.IsNotEmpty(),
     __metadata("design:type", String)
 ], Nurse.prototype, "password", void 0);
+__decorate([
+    typeorm_4.BeforeInsert(),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", Promise)
+], Nurse.prototype, "hashPassword", null);
 __decorate([
     typeorm_3.Column(),
     __metadata("design:type", String)

@@ -21,12 +21,24 @@ const common_5 = require("@nestjs/common");
 const Acc_Man_entity_1 = require("./Acc_Man-entity");
 const Acc_Man_Services_1 = require("./Acc_Man-Services");
 const authentication_service_1 = require("../authentication/authentication.service");
+const bcrypt = require("bcrypt");
 let AccManController = class AccManController {
     constructor(accManService, validate) {
         this.accManService = accManService;
     }
     async addAccMan(accManData) {
-        return this.accManService.createaccMan(accManData);
+        const hashedPassword = await bcrypt.hash(accManData.password, 10);
+        try {
+            const createdUser = await this.accManService.createaccMan(Object.assign(Object.assign({}, accManData), { password: hashedPassword }));
+            createdUser.password = undefined;
+            return createdUser;
+        }
+        catch (error) {
+            return error;
+        }
+    }
+    getSingleAccMan(accMan_email) {
+        return this.accManService.getByEmail(accMan_email);
     }
     ggetAll() {
         return this.accManService.findAll();
@@ -48,6 +60,13 @@ __decorate([
     __metadata("design:paramtypes", [Acc_Man_entity_1.AccManager]),
     __metadata("design:returntype", Promise)
 ], AccManController.prototype, "addAccMan", null);
+__decorate([
+    common_5.Get(':email'),
+    __param(0, common_4.Param('email')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", void 0)
+], AccManController.prototype, "getSingleAccMan", null);
 __decorate([
     common_5.Get(),
     __metadata("design:type", Function),

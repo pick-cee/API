@@ -12,7 +12,7 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
     return function (target, key) { decorator(target, key, paramIndex); }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.securityController = void 0;
+exports.classController = void 0;
 const common_1 = require("@nestjs/common");
 const common_2 = require("@nestjs/common");
 const common_3 = require("@nestjs/common");
@@ -20,7 +20,7 @@ const common_4 = require("@nestjs/common");
 const common_5 = require("@nestjs/common");
 const class_entity_1 = require("./class.entity");
 const class_services_1 = require("./class.services");
-let securityController = class securityController {
+let classController = class classController {
     constructor(classService) {
         this.classService = classService;
     }
@@ -45,13 +45,13 @@ __decorate([
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [class_entity_1.Class]),
     __metadata("design:returntype", Promise)
-], securityController.prototype, "addSecurity", null);
+], classController.prototype, "addSecurity", null);
 __decorate([
     common_5.Get(),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", Promise)
-], securityController.prototype, "getAll", null);
+], classController.prototype, "getAll", null);
 __decorate([
     common_3.Put(':id/update'),
     __param(0, common_4.Param('id')),
@@ -59,17 +59,17 @@ __decorate([
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object, class_entity_1.Class]),
     __metadata("design:returntype", Promise)
-], securityController.prototype, "update", null);
+], classController.prototype, "update", null);
 __decorate([
     common_5.Delete(':id/delete'),
     __param(0, common_4.Param('id')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", Promise)
-], securityController.prototype, "delete", null);
-securityController = __decorate([
+], classController.prototype, "delete", null);
+classController = __decorate([
     common_5.Controller('class'),
     __metadata("design:paramtypes", [class_services_1.classServices])
-], securityController);
-exports.securityController = securityController;
+], classController);
+exports.classController = classController;
 //# sourceMappingURL=class.controllers.js.map

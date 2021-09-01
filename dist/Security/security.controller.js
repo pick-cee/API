@@ -20,12 +20,24 @@ const common_4 = require("@nestjs/common");
 const common_5 = require("@nestjs/common");
 const security_entity_1 = require("./security.entity");
 const security_services_1 = require("./security.services");
+const bcrypt = require("bcrypt");
 let securityController = class securityController {
     constructor(secService) {
         this.secService = secService;
     }
-    async addSecurity(secData) {
-        return this.secService.createSec(secData);
+    async addParent(secData) {
+        const hashedPassword = await bcrypt.hash(secData.password, 10);
+        try {
+            const createdUser = await this.secService.createSec(Object.assign(Object.assign({}, secData), { password: hashedPassword }));
+            createdUser.password = undefined;
+            return createdUser;
+        }
+        catch (error) {
+            return error;
+        }
+    }
+    getSingleSecurity(security_email) {
+        return this.secService.getByEmail(security_email);
     }
     getAll() {
         return this.secService.findAll();
@@ -45,7 +57,14 @@ __decorate([
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [security_entity_1.Security]),
     __metadata("design:returntype", Promise)
-], securityController.prototype, "addSecurity", null);
+], securityController.prototype, "addParent", null);
+__decorate([
+    common_5.Get(':email'),
+    __param(0, common_4.Param('email')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", void 0)
+], securityController.prototype, "getSingleSecurity", null);
 __decorate([
     common_5.Get('get'),
     __metadata("design:type", Function),

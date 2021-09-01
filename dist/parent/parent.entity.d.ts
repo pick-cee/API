@@ -5,8 +5,10 @@ export declare class Parent extends BaseEntity {
     full_name: string;
     age: number;
     profile_pic: string;
-    phone_number: number;
+    phone_number: string;
     email: string;
+    password: string;
+    hashPassword(): Promise<void>;
     address: string;
     gender: string;
     student: Student[];

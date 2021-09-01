@@ -10,13 +10,15 @@ exports.StudentModule = void 0;
 const common_1 = require("@nestjs/common");
 const student_entities_1 = require("./student.entities");
 const typeorm_1 = require("@nestjs/typeorm");
+const student_contoller_1 = require("./student.contoller");
+const student_services_1 = require("./student.services");
 let StudentModule = class StudentModule {
 };
 StudentModule = __decorate([
     common_1.Module({
         imports: [typeorm_1.TypeOrmModule.forFeature([student_entities_1.Student])],
-        providers: [],
-        controllers: [],
+        providers: [student_services_1.studentServices],
+        controllers: [student_contoller_1.studentController],
     })
 ], StudentModule);
 exports.StudentModule = StudentModule;

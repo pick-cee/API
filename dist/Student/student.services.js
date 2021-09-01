@@ -24,6 +24,13 @@ let studentServices = class studentServices {
     async createStudent(student) {
         return await this.usersRepository.save(student);
     }
+    async getByEmail(email) {
+        const user = await this.usersRepository.findOne({ email });
+        if (user) {
+            return user;
+        }
+        throw new common_1.HttpException('User with this email does not exist', common_1.HttpStatus.NOT_FOUND);
+    }
     async findAll() {
         return await this.usersRepository.find();
     }

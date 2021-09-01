@@ -14,6 +14,8 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.nurseServices = void 0;
 const common_1 = require("@nestjs/common");
+const common_2 = require("@nestjs/common");
+const common_3 = require("@nestjs/common");
 const typeorm_1 = require("@nestjs/typeorm");
 const typeorm_2 = require("typeorm");
 const nurse_entities_1 = require("./nurse.entities");
@@ -23,6 +25,13 @@ let nurseServices = class nurseServices {
     }
     async createNurse(nurse) {
         return await this.usersRepository.save(nurse);
+    }
+    async getByEmail(email) {
+        const user = await this.usersRepository.findOne({ email });
+        if (user) {
+            return user;
+        }
+        throw new common_1.HttpException('User with this email does not exist', common_2.HttpStatus.NOT_FOUND);
     }
     async findAll() {
         return await this.usersRepository.find();
@@ -35,7 +44,7 @@ let nurseServices = class nurseServices {
     }
 };
 nurseServices = __decorate([
-    common_1.Injectable(),
+    common_3.Injectable(),
     __param(0, typeorm_1.InjectRepository(nurse_entities_1.Nurse)),
     __metadata("design:paramtypes", [typeorm_2.Repository])
 ], nurseServices);

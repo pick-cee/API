@@ -1,5 +1,5 @@
 import { HttpException, HttpStatus } from '@nestjs/common';
-import bcrypt from 'bcrypt';
+import * as bcrypt from 'bcrypt';
 import { AccManService } from 'src/AccountManager/Acc_Man-Services';
 export class AuthenticationService {
   constructor(private readonly accmanService: AccManService) {}

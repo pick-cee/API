@@ -7,6 +7,8 @@ export declare class Teacher {
     last_name: string;
     age: string;
     email: string;
+    password: string;
+    hashPassword(): Promise<void>;
     profile_pic: string;
     qualifications: string;
     address: string;

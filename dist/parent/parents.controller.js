@@ -20,12 +20,24 @@ const common_4 = require("@nestjs/common");
 const common_5 = require("@nestjs/common");
 const parent_entity_1 = require("./parent.entity");
 const parents_service_1 = require("./parents.service");
+const bcrypt = require("bcrypt");
 let ParentsController = class ParentsController {
     constructor(parentsService) {
         this.parentsService = parentsService;
     }
-    async addSecurity(parData) {
-        return this.parentsService.createPar(parData);
+    async addParent(parData) {
+        const hashedPassword = await bcrypt.hash(parData.password, 10);
+        try {
+            const createdUser = await this.parentsService.createPar(Object.assign(Object.assign({}, parData), { password: hashedPassword }));
+            createdUser.password = undefined;
+            return createdUser;
+        }
+        catch (error) {
+            return error;
+        }
+    }
+    getSingle(parent_email) {
+        return this.parentsService.getByEmail(parent_email);
     }
     getAll() {
         return this.parentsService.findAll();
@@ -46,7 +58,14 @@ __decorate([
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [parent_entity_1.Parent]),
     __metadata("design:returntype", Promise)
-], ParentsController.prototype, "addSecurity", null);
+], ParentsController.prototype, "addParent", null);
+__decorate([
+    common_5.Get(':email'),
+    __param(0, common_4.Param('email')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", void 0)
+], ParentsController.prototype, "getSingle", null);
 __decorate([
     common_5.Get(),
     __metadata("design:type", Function),

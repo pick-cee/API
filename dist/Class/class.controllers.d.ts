@@ -1,6 +1,6 @@
 import { Class } from './class.entity';
 import { classServices } from './class.services';
-export declare class securityController {
+export declare class classController {
     private readonly classService;
     constructor(classService: classServices);
     addSecurity(classData: Class): Promise<any>;

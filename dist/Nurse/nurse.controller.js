@@ -12,7 +12,7 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
     return function (target, key) { decorator(target, key, paramIndex); }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.securityController = void 0;
+exports.nurseController = void 0;
 const common_1 = require("@nestjs/common");
 const common_2 = require("@nestjs/common");
 const common_3 = require("@nestjs/common");
@@ -20,12 +20,24 @@ const common_4 = require("@nestjs/common");
 const common_5 = require("@nestjs/common");
 const nurse_entities_1 = require("./nurse.entities");
 const nurse_services_1 = require("./nurse.services");
-let securityController = class securityController {
+const bcrypt = require("bcrypt");
+let nurseController = class nurseController {
     constructor(nurseService) {
         this.nurseService = nurseService;
     }
-    async addSecurity(nurseData) {
-        return this.nurseService.createNurse(nurseData);
+    async addNurse(nurseData) {
+        const hashedPassword = await bcrypt.hash(nurseData.password, 10);
+        try {
+            const createdUser = await this.nurseService.createNurse(Object.assign(Object.assign({}, nurseData), { password: hashedPassword }));
+            createdUser.password = undefined;
+            return createdUser;
+        }
+        catch (error) {
+            return error;
+        }
+    }
+    getSingleNurse(nurse_email) {
+        return this.nurseService.getByEmail(nurse_email);
     }
     getAll() {
         return this.nurseService.findAll();
@@ -45,13 +57,20 @@ __decorate([
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [nurse_entities_1.Nurse]),
     __metadata("design:returntype", Promise)
-], securityController.prototype, "addSecurity", null);
+], nurseController.prototype, "addNurse", null);
+__decorate([
+    common_5.Get(':email'),
+    __param(0, common_4.Param('email')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", void 0)
+], nurseController.prototype, "getSingleNurse", null);
 __decorate([
     common_5.Get(),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", Promise)
-], securityController.prototype, "getAll", null);
+], nurseController.prototype, "getAll", null);
 __decorate([
     common_3.Put(':id/update'),
     __param(0, common_4.Param('id')),
@@ -59,17 +78,17 @@ __decorate([
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object, nurse_entities_1.Nurse]),
     __metadata("design:returntype", Promise)
-], securityController.prototype, "update", null);
+], nurseController.prototype, "update", null);
 __decorate([
     common_5.Delete(':id/delete'),
     __param(0, common_4.Param('id')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", Promise)
-], securityController.prototype, "delete", null);
-securityController = __decorate([
+], nurseController.prototype, "delete", null);
+nurseController = __decorate([
     common_5.Controller('nurse'),
     __metadata("design:paramtypes", [nurse_services_1.nurseServices])
-], securityController);
-exports.securityController = securityController;
+], nurseController);
+exports.nurseController = nurseController;
 //# sourceMappingURL=nurse.controller.js.map

@@ -18,7 +18,11 @@ const typeorm_1 = require("typeorm");
 const typeorm_2 = require("typeorm");
 const typeorm_3 = require("typeorm");
 const typeorm_4 = require("typeorm");
+const bcrypt = require("bcrypt");
 let Teacher = class Teacher {
+    async hashPassword() {
+        this.password = await bcrypt.hash(this.password, 10);
+    }
 };
 __decorate([
     typeorm_4.PrimaryGeneratedColumn(),
@@ -41,6 +45,17 @@ __decorate([
     class_validator_1.IsEmail(),
     __metadata("design:type", String)
 ], Teacher.prototype, "email", void 0);
+__decorate([
+    typeorm_4.Column(),
+    class_validator_1.IsNotEmpty(),
+    __metadata("design:type", String)
+], Teacher.prototype, "password", void 0);
+__decorate([
+    typeorm_1.BeforeInsert(),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", Promise)
+], Teacher.prototype, "hashPassword", null);
 __decorate([
     typeorm_4.Column(),
     __metadata("design:type", String)

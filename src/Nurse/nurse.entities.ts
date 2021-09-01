@@ -3,6 +3,8 @@ import { School } from 'src/School/school.entities';
 import { JoinColumn } from 'typeorm';
 import { ManyToOne } from 'typeorm';
 import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import * as bcrypt from 'bcrypt';
+import { BeforeInsert } from 'typeorm';
 
 @Entity()
 export class Nurse {
@@ -22,6 +24,9 @@ export class Nurse {
   @Column()
   @IsNotEmpty()
   password: string;
+  @BeforeInsert() async hashPassword() {
+    this.password = await bcrypt.hash(this.password, 10);
+  }
 
   @Column()
   qualification: string;
