@@ -18,20 +18,36 @@ const common_2 = require("@nestjs/common");
 const common_3 = require("@nestjs/common");
 const common_4 = require("@nestjs/common");
 const common_5 = require("@nestjs/common");
+const platform_express_1 = require("@nestjs/platform-express");
+const localAuthentication_guard_1 = require("../authentication/localAuthentication.guard");
+const requestWithUser_interface_1 = require("../authentication/requestWithUser.interface");
 const student_entities_1 = require("./student.entities");
 const student_services_1 = require("./student.services");
+const bcrypt = require("bcrypt");
 let studentController = class studentController {
     constructor(studentService) {
         this.studentService = studentService;
     }
-    async addStudent(studentData) {
-        return this.studentService.createStudent(studentData);
+    async uploadedFile(studentData, profile_pic) {
+        const hashedPassword = await bcrypt.hash(studentData.password, 10);
+        const createdUser = await this.studentService.createStudent(Object.assign(Object.assign({}, studentData), { password: hashedPassword }));
+        createdUser.password = undefined;
+        return {
+            studentData,
+            file: profile_pic.buffer.toString(),
+            createdUser,
+        };
     }
     getSingleStudent(student_email) {
         return this.studentService.getByEmail(student_email);
     }
     getAll() {
         return this.studentService.findAll();
+    }
+    async logIn(request) {
+        const user = request.student;
+        user.password = undefined;
+        return user;
     }
     async update(id, studentData) {
         studentData.id = String(id);
@@ -44,11 +60,13 @@ let studentController = class studentController {
 };
 __decorate([
     common_1.Post('create'),
+    common_1.UseInterceptors(platform_express_1.FileInterceptor('profile_pic')),
     __param(0, common_2.Body()),
+    __param(1, common_1.UploadedFile()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [student_entities_1.Student]),
+    __metadata("design:paramtypes", [student_entities_1.Student, Object]),
     __metadata("design:returntype", Promise)
-], studentController.prototype, "addStudent", null);
+], studentController.prototype, "uploadedFile", null);
 __decorate([
     common_5.Get(':email'),
     __param(0, common_4.Param('email')),
@@ -62,6 +80,15 @@ __decorate([
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", Promise)
 ], studentController.prototype, "getAll", null);
+__decorate([
+    common_1.HttpCode(200),
+    common_1.UseGuards(localAuthentication_guard_1.LocalAuthenticationGuard),
+    common_1.Post('log-in'),
+    __param(0, common_1.Req()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", Promise)
+], studentController.prototype, "logIn", null);
 __decorate([
     common_3.Put(':id/update'),
     __param(0, common_4.Param('id')),

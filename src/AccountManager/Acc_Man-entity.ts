@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { IsEmail, IsNotEmpty } from 'class-validator';
-import { School } from 'src/School/school.entities';
+import { School } from '../School/school.entities';
 import { BeforeInsert } from 'typeorm';
 import { JoinColumn } from 'typeorm';
 import {
@@ -27,6 +27,9 @@ export class AccManager extends BaseEntity {
   @BeforeInsert() async hashPassword() {
     this.password = await bcrypt.hash(this.password, 10);
   }
+
+  @Column()
+  profile_pic: string;
 
   @ManyToOne(() => School, (school) => school.id)
   @JoinColumn({ name: 'school_id' })

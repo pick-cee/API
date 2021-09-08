@@ -42,6 +42,10 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], AccManager.prototype, "hashPassword", null);
 __decorate([
+    typeorm_3.Column(),
+    __metadata("design:type", String)
+], AccManager.prototype, "profile_pic", void 0);
+__decorate([
     typeorm_3.ManyToOne(() => school_entities_1.School, (school) => school.id),
     typeorm_2.JoinColumn({ name: 'school_id' }),
     __metadata("design:type", school_entities_1.School)

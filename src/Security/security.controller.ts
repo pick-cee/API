@@ -1,4 +1,4 @@
-import { Post } from '@nestjs/common';
+import { HttpCode, Post, Req, UseGuards } from '@nestjs/common';
 import { Body } from '@nestjs/common';
 import { Put } from '@nestjs/common';
 import { Param } from '@nestjs/common';
@@ -6,6 +6,8 @@ import { Controller, Get, Delete } from '@nestjs/common';
 import { Security } from './security.entity';
 import { securityServices } from './security.services';
 import * as bcrypt from 'bcrypt';
+import { LocalAuthenticationGuard } from 'src/authentication/localAuthentication.guard';
+import RequestWithUser from 'src/authentication/requestWithUser.interface';
 
 @Controller('security')
 export class securityController {
@@ -34,6 +36,15 @@ export class securityController {
   @Get('get')
   getAll(): Promise<Security[]> {
     return this.secService.findAll();
+  }
+
+  @HttpCode(200)
+  @UseGuards(LocalAuthenticationGuard)
+  @Post('log-in')
+  async logIn(@Req() request: RequestWithUser) {
+    const user = request.security;
+    user.password = undefined;
+    return user;
   }
 
   @Put(':id/update')

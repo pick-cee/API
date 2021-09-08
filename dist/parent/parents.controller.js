@@ -21,26 +21,33 @@ const common_5 = require("@nestjs/common");
 const parent_entity_1 = require("./parent.entity");
 const parents_service_1 = require("./parents.service");
 const bcrypt = require("bcrypt");
+const localAuthentication_guard_1 = require("../authentication/localAuthentication.guard");
+const requestWithUser_interface_1 = require("../authentication/requestWithUser.interface");
+const platform_express_1 = require("@nestjs/platform-express");
 let ParentsController = class ParentsController {
     constructor(parentsService) {
         this.parentsService = parentsService;
     }
-    async addParent(parData) {
-        const hashedPassword = await bcrypt.hash(parData.password, 10);
-        try {
-            const createdUser = await this.parentsService.createPar(Object.assign(Object.assign({}, parData), { password: hashedPassword }));
-            createdUser.password = undefined;
-            return createdUser;
-        }
-        catch (error) {
-            return error;
-        }
+    async uploadedFile(parentData, profile_pic) {
+        const hashedPassword = await bcrypt.hash(parentData.password, 10);
+        const createdUser = await this.parentsService.createPar(Object.assign(Object.assign({}, parentData), { password: hashedPassword }));
+        createdUser.password = undefined;
+        return {
+            parentData,
+            file: profile_pic.buffer.toString(),
+            createdUser,
+        };
     }
     getSingle(parent_email) {
         return this.parentsService.getByEmail(parent_email);
     }
     getAll() {
         return this.parentsService.findAll();
+    }
+    async logIn(request) {
+        const user = request.parent;
+        user.password = undefined;
+        return user;
     }
     async update(id, parData) {
         parData.id = String(id);
@@ -54,11 +61,13 @@ let ParentsController = class ParentsController {
 };
 __decorate([
     common_1.Post('create'),
+    common_1.UseInterceptors(platform_express_1.FileInterceptor('profile_pic')),
     __param(0, common_2.Body()),
+    __param(1, common_1.UploadedFile()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [parent_entity_1.Parent]),
+    __metadata("design:paramtypes", [parent_entity_1.Parent, Object]),
     __metadata("design:returntype", Promise)
-], ParentsController.prototype, "addParent", null);
+], ParentsController.prototype, "uploadedFile", null);
 __decorate([
     common_5.Get(':email'),
     __param(0, common_4.Param('email')),
@@ -72,6 +81,15 @@ __decorate([
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", Promise)
 ], ParentsController.prototype, "getAll", null);
+__decorate([
+    common_1.HttpCode(200),
+    common_1.UseGuards(localAuthentication_guard_1.LocalAuthenticationGuard),
+    common_1.Post('log-in'),
+    __param(0, common_1.Req()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", Promise)
+], ParentsController.prototype, "logIn", null);
 __decorate([
     common_3.Put(':id/update'),
     __param(0, common_4.Param('id')),

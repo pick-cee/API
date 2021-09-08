@@ -14,7 +14,7 @@ export class studentServices {
     private usersRepository: Repository<Student>,
   ) {}
 
-  async createStudent(student: Student): Promise<Student> {
+  async createStudent(student): Promise<Student> {
     return await this.usersRepository.save(student);
   }
 

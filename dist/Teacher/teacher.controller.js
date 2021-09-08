@@ -21,26 +21,33 @@ const common_5 = require("@nestjs/common");
 const teacher_entity_1 = require("./teacher.entity");
 const teacher_services_1 = require("./teacher.services");
 const bcrypt = require("bcrypt");
+const localAuthentication_guard_1 = require("../authentication/localAuthentication.guard");
+const requestWithUser_interface_1 = require("../authentication/requestWithUser.interface");
+const platform_express_1 = require("@nestjs/platform-express");
 let teacherController = class teacherController {
     constructor(teacherService) {
         this.teacherService = teacherService;
     }
-    async addTeacher(teacherData) {
+    async uploadedFile(teacherData, profile_pic) {
         const hashedPassword = await bcrypt.hash(teacherData.password, 10);
-        try {
-            const createdUser = await this.teacherService.createTeacher(Object.assign(Object.assign({}, teacherData), { password: hashedPassword }));
-            createdUser.password = undefined;
-            return createdUser;
-        }
-        catch (error) {
-            return error;
-        }
+        const createdUser = await this.teacherService.createTeacher(Object.assign(Object.assign({}, teacherData), { password: hashedPassword }));
+        createdUser.password = undefined;
+        return {
+            teacherData,
+            file: profile_pic.buffer.toString(),
+            createdUser,
+        };
     }
     getSingleTeacher(teacher_email) {
         return this.teacherService.getByEmail(teacher_email);
     }
     getAll() {
         return this.teacherService.findAll();
+    }
+    async logIn(request) {
+        const user = request.teacher;
+        user.password = undefined;
+        return user;
     }
     async update(id, teacherData) {
         teacherData.id = String(id);
@@ -53,11 +60,13 @@ let teacherController = class teacherController {
 };
 __decorate([
     common_1.Post('create'),
+    common_1.UseInterceptors(platform_express_1.FileInterceptor('profile_pic')),
     __param(0, common_2.Body()),
+    __param(1, common_1.UploadedFile()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [teacher_entity_1.Teacher]),
+    __metadata("design:paramtypes", [teacher_entity_1.Teacher, Object]),
     __metadata("design:returntype", Promise)
-], teacherController.prototype, "addTeacher", null);
+], teacherController.prototype, "uploadedFile", null);
 __decorate([
     common_5.Get(':email'),
     __param(0, common_4.Param('email')),
@@ -71,6 +80,15 @@ __decorate([
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", Promise)
 ], teacherController.prototype, "getAll", null);
+__decorate([
+    common_1.HttpCode(200),
+    common_1.UseGuards(localAuthentication_guard_1.LocalAuthenticationGuard),
+    common_1.Post('log-in'),
+    __param(0, common_1.Req()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", Promise)
+], teacherController.prototype, "logIn", null);
 __decorate([
     common_3.Put(':id/update'),
     __param(0, common_4.Param('id')),

@@ -1,33 +1,38 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { Post } from '@nestjs/common';
+import { HttpCode, Post, Req, UseGuards } from '@nestjs/common';
 import { Body } from '@nestjs/common';
-import { Put } from '@nestjs/common';
+import { Put, UploadedFile, UseInterceptors } from '@nestjs/common';
 import { Param } from '@nestjs/common';
 import { Controller, Get, Delete } from '@nestjs/common';
 import { AccManager } from './Acc_Man-entity';
 import { AccManService } from './Acc_Man-Services';
-import { AuthenticationService } from 'src/authentication/authentication.service';
 import * as bcrypt from 'bcrypt';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { Express } from 'express';
+import { LocalAuthenticationGuard } from 'src/authentication/localAuthentication.guard';
+import RequestWithUser from 'src/authentication/requestWithUser.interface';
+
 @Controller('accMan')
 export class AccManController {
-  constructor(
-    private readonly accManService: AccManService,
-    validate: AuthenticationService,
-  ) {}
+  constructor(private readonly accManService: AccManService) {}
 
   @Post('create')
-  async addAccMan(@Body() accManData: AccManager): Promise<any> {
+  @UseInterceptors(FileInterceptor('profile_pic'))
+  async uploadedFile(
+    @Body() accManData: AccManager,
+    @UploadedFile() profile_pic: Express.Multer.File,
+  ) {
     const hashedPassword = await bcrypt.hash(accManData.password, 10);
-    try {
-      const createdUser = await this.accManService.createaccMan({
-        ...accManData,
-        password: hashedPassword,
-      });
-      createdUser.password = undefined;
-      return createdUser;
-    } catch (error) {
-      return error;
-    }
+    const createdUser = await this.accManService.createaccMan({
+      ...accManData,
+      password: hashedPassword,
+    });
+    createdUser.password = undefined;
+    return {
+      accManData,
+      file: profile_pic.buffer.toString(),
+      createdUser,
+    };
   }
 
   @Get(':email')
@@ -38,6 +43,15 @@ export class AccManController {
   @Get()
   ggetAll(): Promise<AccManager[]> {
     return this.accManService.findAll();
+  }
+
+  @HttpCode(200)
+  @UseGuards(LocalAuthenticationGuard)
+  @Post('log-in')
+  async logIn(@Req() request: RequestWithUser) {
+    const user = request.accMan;
+    user.password = undefined;
+    return user;
   }
 
   @Put(':id/update')

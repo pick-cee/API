@@ -7,10 +7,11 @@ import {
   BaseEntity,
   BeforeInsert,
 } from 'typeorm';
-import { Student } from 'src/Student/student.entities';
+
 import { JoinColumn } from 'typeorm';
 import { IsEmail, IsNotEmpty } from 'class-validator';
 import * as bcrypt from 'bcrypt';
+import { Student } from 'src/Student/student.entities';
 @Entity()
 export class Parent extends BaseEntity {
   @PrimaryGeneratedColumn()
@@ -47,7 +48,7 @@ export class Parent extends BaseEntity {
 
   @OneToMany(() => Student, (student) => student.id)
   @JoinColumn({ name: 'student_id' })
-  student: Student[];
+  student: Student;
 
   @Column({ default: true })
   isActive: boolean;

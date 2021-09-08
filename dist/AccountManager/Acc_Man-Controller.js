@@ -20,28 +20,34 @@ const common_4 = require("@nestjs/common");
 const common_5 = require("@nestjs/common");
 const Acc_Man_entity_1 = require("./Acc_Man-entity");
 const Acc_Man_Services_1 = require("./Acc_Man-Services");
-const authentication_service_1 = require("../authentication/authentication.service");
 const bcrypt = require("bcrypt");
+const platform_express_1 = require("@nestjs/platform-express");
+const localAuthentication_guard_1 = require("../authentication/localAuthentication.guard");
+const requestWithUser_interface_1 = require("../authentication/requestWithUser.interface");
 let AccManController = class AccManController {
-    constructor(accManService, validate) {
+    constructor(accManService) {
         this.accManService = accManService;
     }
-    async addAccMan(accManData) {
+    async uploadedFile(accManData, profile_pic) {
         const hashedPassword = await bcrypt.hash(accManData.password, 10);
-        try {
-            const createdUser = await this.accManService.createaccMan(Object.assign(Object.assign({}, accManData), { password: hashedPassword }));
-            createdUser.password = undefined;
-            return createdUser;
-        }
-        catch (error) {
-            return error;
-        }
+        const createdUser = await this.accManService.createaccMan(Object.assign(Object.assign({}, accManData), { password: hashedPassword }));
+        createdUser.password = undefined;
+        return {
+            accManData,
+            file: profile_pic.buffer.toString(),
+            createdUser,
+        };
     }
     getSingleAccMan(accMan_email) {
         return this.accManService.getByEmail(accMan_email);
     }
     ggetAll() {
         return this.accManService.findAll();
+    }
+    async logIn(request) {
+        const user = request.accMan;
+        user.password = undefined;
+        return user;
     }
     async update(id, accManData) {
         accManData.id = String(id);
@@ -55,11 +61,13 @@ let AccManController = class AccManController {
 };
 __decorate([
     common_1.Post('create'),
+    common_3.UseInterceptors(platform_express_1.FileInterceptor('profile_pic')),
     __param(0, common_2.Body()),
+    __param(1, common_3.UploadedFile()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Acc_Man_entity_1.AccManager]),
+    __metadata("design:paramtypes", [Acc_Man_entity_1.AccManager, Object]),
     __metadata("design:returntype", Promise)
-], AccManController.prototype, "addAccMan", null);
+], AccManController.prototype, "uploadedFile", null);
 __decorate([
     common_5.Get(':email'),
     __param(0, common_4.Param('email')),
@@ -73,6 +81,15 @@ __decorate([
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", Promise)
 ], AccManController.prototype, "ggetAll", null);
+__decorate([
+    common_1.HttpCode(200),
+    common_1.UseGuards(localAuthentication_guard_1.LocalAuthenticationGuard),
+    common_1.Post('log-in'),
+    __param(0, common_1.Req()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", Promise)
+], AccManController.prototype, "logIn", null);
 __decorate([
     common_3.Put(':id/update'),
     __param(0, common_4.Param('id')),
@@ -90,8 +107,7 @@ __decorate([
 ], AccManController.prototype, "removeParent", null);
 AccManController = __decorate([
     common_5.Controller('accMan'),
-    __metadata("design:paramtypes", [Acc_Man_Services_1.AccManService,
-        authentication_service_1.AuthenticationService])
+    __metadata("design:paramtypes", [Acc_Man_Services_1.AccManService])
 ], AccManController);
 exports.AccManController = AccManController;
 //# sourceMappingURL=Acc_Man-Controller.js.map

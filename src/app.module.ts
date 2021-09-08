@@ -6,7 +6,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { Connection } from 'typeorm';
 import { Parent } from './parent/parent.entity';
 import { ParentsModules } from './parent/parents.modules';
-import { Student } from './Student/student.entities';
+import { Student } from 'src/Student/student.entities';
 import { AccManager } from './AccountManager/Acc_Man-entity';
 import { Class } from './Class/class.entity';
 import { Nurse } from './Nurse/nurse.entities';

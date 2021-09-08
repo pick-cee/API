@@ -21,20 +21,27 @@ const common_5 = require("@nestjs/common");
 const nurse_entities_1 = require("./nurse.entities");
 const nurse_services_1 = require("./nurse.services");
 const bcrypt = require("bcrypt");
+const localAuthentication_guard_1 = require("../authentication/localAuthentication.guard");
+const requestWithUser_interface_1 = require("../authentication/requestWithUser.interface");
+const platform_express_1 = require("@nestjs/platform-express");
 let nurseController = class nurseController {
     constructor(nurseService) {
         this.nurseService = nurseService;
     }
-    async addNurse(nurseData) {
+    async uploadedFile(nurseData, profile_pic) {
         const hashedPassword = await bcrypt.hash(nurseData.password, 10);
-        try {
-            const createdUser = await this.nurseService.createNurse(Object.assign(Object.assign({}, nurseData), { password: hashedPassword }));
-            createdUser.password = undefined;
-            return createdUser;
-        }
-        catch (error) {
-            return error;
-        }
+        const createdUser = await this.nurseService.createNurse(Object.assign(Object.assign({}, nurseData), { password: hashedPassword }));
+        createdUser.password = undefined;
+        return {
+            nurseData,
+            file: profile_pic.buffer.toString(),
+            createdUser,
+        };
+    }
+    async logIn(request) {
+        const user = request.nurse;
+        user.password = undefined;
+        return user;
     }
     getSingleNurse(nurse_email) {
         return this.nurseService.getByEmail(nurse_email);
@@ -53,11 +60,22 @@ let nurseController = class nurseController {
 };
 __decorate([
     common_1.Post('create'),
+    common_1.UseInterceptors(platform_express_1.FileInterceptor('profile_pic')),
     __param(0, common_2.Body()),
+    __param(1, common_1.UploadedFile()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [nurse_entities_1.Nurse]),
+    __metadata("design:paramtypes", [nurse_entities_1.Nurse, Object]),
     __metadata("design:returntype", Promise)
-], nurseController.prototype, "addNurse", null);
+], nurseController.prototype, "uploadedFile", null);
+__decorate([
+    common_1.HttpCode(200),
+    common_1.UseGuards(localAuthentication_guard_1.LocalAuthenticationGuard),
+    common_1.Post('log-in'),
+    __param(0, common_1.Req()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", Promise)
+], nurseController.prototype, "logIn", null);
 __decorate([
     common_5.Get(':email'),
     __param(0, common_4.Param('email')),

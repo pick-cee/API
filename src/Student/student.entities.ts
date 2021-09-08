@@ -4,6 +4,7 @@ import {
   PrimaryGeneratedColumn,
   ManyToOne,
   BaseEntity,
+  BeforeInsert,
 } from 'typeorm';
 import { Parent } from 'src/parent/parent.entity';
 import { Class } from 'src/Class/class.entity';
@@ -12,7 +13,8 @@ import { Teacher } from 'src/Teacher/teacher.entity';
 import { School } from 'src/School/school.entities';
 import { OneToOne } from 'typeorm';
 import { Report } from 'src/Report-Card/report.entities';
-import { IsEmail } from 'class-validator';
+import { IsEmail, IsNotEmpty } from 'class-validator';
+import * as bcrypt from 'bcrypt';
 @Entity()
 export class Student extends BaseEntity {
   @PrimaryGeneratedColumn()
@@ -29,6 +31,13 @@ export class Student extends BaseEntity {
 
   @Column()
   age: string;
+
+  @Column()
+  @IsNotEmpty()
+  password: string;
+  @BeforeInsert() async hashPassword() {
+    this.password = await bcrypt.hash(this.password, 10);
+  }
 
   @Column()
   date_of_birth: string;

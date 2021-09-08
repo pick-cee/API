@@ -11,6 +11,6 @@ export declare class Parent extends BaseEntity {
     hashPassword(): Promise<void>;
     address: string;
     gender: string;
-    student: Student[];
+    student: Student;
     isActive: boolean;
 }

@@ -17,17 +17,33 @@ const common_1 = require("@nestjs/common");
 const common_2 = require("@nestjs/common");
 const common_3 = require("@nestjs/common");
 const common_4 = require("@nestjs/common");
+const platform_express_1 = require("@nestjs/platform-express");
+const localAuthentication_guard_1 = require("../authentication/localAuthentication.guard");
+const requestWithUser_interface_1 = require("../authentication/requestWithUser.interface");
 const school_entities_1 = require("./school.entities");
 const school_services_1 = require("./school.services");
+const bcrypt = require("bcrypt");
 let schoolController = class schoolController {
     constructor(schoolService) {
         this.schoolService = schoolService;
     }
-    async addSecurity(schoolData) {
-        return this.schoolService.createSchool(schoolData);
+    async uploadedFile(schoolData, profile_pic) {
+        const hashedPassword = await bcrypt.hash(schoolData.password, 10);
+        const createdUser = await this.schoolService.createSchool(Object.assign(Object.assign({}, schoolData), { password: hashedPassword }));
+        createdUser.password = undefined;
+        return {
+            schoolData,
+            file: profile_pic.buffer.toString(),
+            createdUser,
+        };
     }
     getAll() {
         return this.schoolService.findAll();
+    }
+    async logIn(request) {
+        const user = request.school;
+        user.password = undefined;
+        return user;
     }
     async update(id, schoolData) {
         schoolData.id = String(id);
@@ -40,17 +56,28 @@ let schoolController = class schoolController {
 };
 __decorate([
     common_1.Post('create'),
+    common_1.UseInterceptors(platform_express_1.FileInterceptor('profile_pic')),
     __param(0, common_1.Body()),
+    __param(1, common_1.UploadedFile()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [school_entities_1.School]),
+    __metadata("design:paramtypes", [school_entities_1.School, Object]),
     __metadata("design:returntype", Promise)
-], schoolController.prototype, "addSecurity", null);
+], schoolController.prototype, "uploadedFile", null);
 __decorate([
     common_4.Get(),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", Promise)
 ], schoolController.prototype, "getAll", null);
+__decorate([
+    common_1.HttpCode(200),
+    common_1.UseGuards(localAuthentication_guard_1.LocalAuthenticationGuard),
+    common_1.Post('log-in'),
+    __param(0, common_1.Req()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", Promise)
+], schoolController.prototype, "logIn", null);
 __decorate([
     common_2.Put(':id/update'),
     __param(0, common_3.Param('id')),

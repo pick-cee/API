@@ -10,6 +10,8 @@ export declare class Student extends BaseEntity {
     last_name: string;
     middle_name: string;
     age: string;
+    password: string;
+    hashPassword(): Promise<void>;
     date_of_birth: string;
     health_issues: string;
     birth_certificate: string;

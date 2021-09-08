@@ -11,10 +11,10 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Parent = void 0;
 const typeorm_1 = require("typeorm");
-const student_entities_1 = require("../Student/student.entities");
 const typeorm_2 = require("typeorm");
 const class_validator_1 = require("class-validator");
 const bcrypt = require("bcrypt");
+const student_entities_1 = require("../Student/student.entities");
 let Parent = class Parent extends typeorm_1.BaseEntity {
     async hashPassword() {
         this.password = await bcrypt.hash(this.password, 10);
@@ -67,7 +67,7 @@ __decorate([
 __decorate([
     typeorm_1.OneToMany(() => student_entities_1.Student, (student) => student.id),
     typeorm_2.JoinColumn({ name: 'student_id' }),
-    __metadata("design:type", Array)
+    __metadata("design:type", student_entities_1.Student)
 ], Parent.prototype, "student", void 0);
 __decorate([
     typeorm_1.Column({ default: true }),

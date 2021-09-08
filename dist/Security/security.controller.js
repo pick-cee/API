@@ -21,6 +21,8 @@ const common_5 = require("@nestjs/common");
 const security_entity_1 = require("./security.entity");
 const security_services_1 = require("./security.services");
 const bcrypt = require("bcrypt");
+const localAuthentication_guard_1 = require("../authentication/localAuthentication.guard");
+const requestWithUser_interface_1 = require("../authentication/requestWithUser.interface");
 let securityController = class securityController {
     constructor(secService) {
         this.secService = secService;
@@ -41,6 +43,11 @@ let securityController = class securityController {
     }
     getAll() {
         return this.secService.findAll();
+    }
+    async logIn(request) {
+        const user = request.security;
+        user.password = undefined;
+        return user;
     }
     async update(id, secData) {
         secData.id = String(id);
@@ -71,6 +78,15 @@ __decorate([
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", Promise)
 ], securityController.prototype, "getAll", null);
+__decorate([
+    common_1.HttpCode(200),
+    common_1.UseGuards(localAuthentication_guard_1.LocalAuthenticationGuard),
+    common_1.Post('log-in'),
+    __param(0, common_1.Req()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", Promise)
+], securityController.prototype, "logIn", null);
 __decorate([
     common_3.Put(':id/update'),
     __param(0, common_4.Param('id')),
